@@ -10,12 +10,6 @@
         #graph {
             margin: auto 0;
         }
-        #graph.changing > svg {
-            margin-bottom: 10000px;
-        }
-        #graph {
-            overflow-y: hidden;
-        }
     </style>
 </head>
 <body>
@@ -23,8 +17,8 @@
     <div class="page-header">
         <div class="pull-right">
             <select class="form-control" id="selector">
-                <option value="dauer">Dauer</option>
                 <option value="besucher_gesamt" selected>Besucher gesamt</option>
+                <option value="dauer">Dauer</option>
                 <option value="besucher_tag">Besucher pro Tag</option>
             </select>
         </div>
@@ -69,7 +63,7 @@
     ], cw = document.getElementById('graph').clientWidth;
 
     function draw(field) {
-        var svg = dimple.newSvg("#graph", cw, 600);
+        var svg = dimple.newSvg("#graph", 1140, 600);
         var chart = new dimple.chart(svg, data);
         chart.addCategoryAxis("x", "jahr");
         chart.addMeasureAxis("y", field);
@@ -79,13 +73,8 @@
 
     $('#selector').on('change', function() {
         var self = this;
-        $('#graph').addClass('changing');
+        $('#graph>*:first').remove();
         draw(self.value);
-        $('#graph').fadeOut(200, function() {
-            $('#graph>*:first').remove();
-            $(this).fadeIn();
-            $('#graph').removeClass('changing');
-        })
     });
     draw('besucher_gesamt');
 </script>
